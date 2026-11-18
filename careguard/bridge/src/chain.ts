@@ -12,7 +12,7 @@ export const aevumTestnet = defineChain({
 
 export const TUSD8_ADDRESS: Address = "0x456569838f1d43009A91ebA4263147Afd7233483";
 
-export function publicClientFor(rpcUrl = aevumTestnet.rpcUrls.default.http[0]): PublicClient {
+export function publicClientFor(rpcUrl: string = aevumTestnet.rpcUrls.default.http[0]): PublicClient {
   return createPublicClient({ chain: aevumTestnet, transport: http(rpcUrl), pollingInterval: 2_000 });
 }
 
