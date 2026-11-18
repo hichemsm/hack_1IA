@@ -1,0 +1,16 @@
+{
+  "name": "careguard",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Portefeuille de santé pour senior, piloté par 4 agents IA sous contrôle d'un aidant — Aevum Builder Challenge #1",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "pnpm --filter @careguard/interface dev",
+    "build": "pnpm --filter @careguard/interface build",
+    "test": "pnpm --filter @careguard/core test && cd bridge/contracts && forge test",
+    "test:core": "pnpm --filter @careguard/core test",
+    "test:contracts": "cd bridge/contracts && forge test -vv",
+    "abi": "node bridge/scripts/gen-abi.mjs",
+    "simulate": "pnpm --filter @careguard/bridge simulate"
+  }
+}

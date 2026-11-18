@@ -1,0 +1,9 @@
+{
+  "invoiceNo": "K-2026-0412",
+  "providerId": "kine-dupont",
+  "date": "2026-11-20",
+  "acte": "KINE_SEANCE",
+  "montantCents": 1613,
+  "quantite": 1,
+  "beneficiaire": "papa"
+}

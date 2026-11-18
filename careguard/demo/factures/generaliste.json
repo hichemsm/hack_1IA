@@ -1,0 +1,9 @@
+{
+  "invoiceNo": "M-2026-1187",
+  "providerId": "medecin-martin",
+  "date": "2026-11-20",
+  "acte": "GENERALISTE_CONSULT",
+  "montantCents": 3000,
+  "quantite": 1,
+  "beneficiaire": "papa"
+}

@@ -1,0 +1,46 @@
+{
+  "version": "2026-11",
+  "sources": [
+    "https://www.service-public.gouv.fr/particuliers/actualites/A17166",
+    "https://selectra.info/assurance/guides/mutuelle-sante/assurance-maladie",
+    "https://selectra.info/assurance/mutuelle-sante/remboursement/kinesitherapeute"
+  ],
+  "retenues": {
+    "participationForfaitaireCents": 200,
+    "franchiseActeParamedicalCents": 100,
+    "franchiseBoiteCents": 100,
+    "plafondAnnuelParticipationsCents": 7000,
+    "plafondAnnuelFranchisesCents": 7000
+  },
+  "actes": {
+    "GENERALISTE_CONSULT": {
+      "libelle": "Consultation de médecin généraliste",
+      "categorie": "MEDECIN",
+      "brssCents": 3000,
+      "tauxSecu": 70,
+      "tauxHorsParcours": 30,
+      "retenue": "participation"
+    },
+    "KINE_SEANCE": {
+      "libelle": "Séance de kinésithérapie (un membre)",
+      "categorie": "PARAMEDICAL",
+      "brssCents": 1613,
+      "tauxSecu": 60,
+      "retenue": "franchiseActe"
+    },
+    "PHARMACIE_SMR_MAJEUR": {
+      "libelle": "Médicament à service médical rendu majeur",
+      "categorie": "PHARMACIE",
+      "brssCents": null,
+      "tauxSecu": 65,
+      "retenue": "franchiseBoite"
+    },
+    "NON_REMBOURSABLE": {
+      "libelle": "Acte non remboursable",
+      "categorie": "AUTRE",
+      "brssCents": 0,
+      "tauxSecu": 0,
+      "retenue": null
+    }
+  }
+}

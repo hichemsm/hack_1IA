@@ -1,0 +1,15 @@
+node_modules/
+.next/
+dist/
+.env
+.env.local
+*.log
+
+# Foundry
+bridge/contracts/out/
+bridge/contracts/cache/
+bridge/contracts/broadcast/*/31337/
+
+# Données locales (jamais de données de santé dans le repo)
+data/
+*.sqlite
