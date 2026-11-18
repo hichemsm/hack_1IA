@@ -58,9 +58,11 @@ export function computeBreakdown(i: BreakdownInput): Breakdown {
   const brss = d.brssCents === null ? i.montantCents : d.brssCents * q;
 
   let taux = d.tauxSecu;
+  let horsParcours = false;
   if (taux > 0 && i.profile.ald) taux = 100;
   else if (d.categorie === "MEDECIN" && !i.profile.medecinTraitant && d.tauxHorsParcours !== undefined) {
     taux = d.tauxHorsParcours;
+    horsParcours = true;
   }
 
   const secuBrut = Math.round((brss * taux) / 100);
@@ -68,8 +70,13 @@ export function computeBreakdown(i: BreakdownInput): Breakdown {
   const secu = Math.max(0, secuBrut - retenue);
 
   // La mutuelle complète jusqu'à X % de la BRSS (part Sécu incluse) et ne rembourse jamais les retenues.
-  const plafondMutuelle = Math.round((brss * i.profile.mutuelleBrssPct) / 100) - secuBrut;
-  const mutuelle = taux === 0 ? 0 : clamp0(Math.min(plafondMutuelle, i.montantCents - secuBrut));
+  // On suppose un contrat responsable : hors parcours de soins, la mutuelle ne couvre pas la majoration
+  // du ticket modérateur. Son plafond se calcule donc avec le taux normal (tauxSecu), et la majoration
+  // (BRSS × (tauxSecu − tauxHorsParcours)) reste toujours à la charge du patient.
+  const tauxReference = horsParcours ? d.tauxSecu : taux;
+  const majoration = horsParcours ? Math.round((brss * (d.tauxSecu - taux)) / 100) : 0;
+  const plafondMutuelle = Math.round((brss * i.profile.mutuelleBrssPct) / 100) - Math.round((brss * tauxReference) / 100);
+  const mutuelle = taux === 0 ? 0 : clamp0(Math.min(plafondMutuelle, i.montantCents - secuBrut - majoration));
 
   return {
     brssCents: brss,
