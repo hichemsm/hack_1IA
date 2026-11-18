@@ -51,7 +51,7 @@ export class SecurityAgent {
     if (category !== Category.MEDECIN && b.brssCents > 0 && invoice.montantCents > b.brssCents * 1.2)
       reasons.push({ code: "MONTANT_ANORMAL", points: 30, message: "Montant supérieur de plus de 20 % au tarif habituel." });
     if (category === Category.PARAMEDICAL && history.countSameProviderSameDay(invoice.providerId, invoice.date) >= 1)
-      reasons.push({ code: "FREQUENCE", points: 25, message: "Deuxième séance chez ce soignant le même jour." });
+      reasons.push({ code: "FREQUENCE", points: 30, message: "Deuxième séance chez ce soignant le même jour." });
     if (!b.remboursable)
       reasons.push({ code: "NON_REMBOURSABLE", points: 20, message: "Acte non remboursé par la Sécurité sociale." });
 
