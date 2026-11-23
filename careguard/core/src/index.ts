@@ -8,3 +8,4 @@ export { Orchestrator, buildOrder, type ProcessOptions } from "./agents/orchestr
 export { AmountsAgent } from "./agents/amounts";
 export { SecurityAgent, type SecurityConfig } from "./agents/security";
 export { TransactionAgent, CONTRACT_ERRORS } from "./agents/transaction";
+export { ClaudeAssistant, OfflineAssistant, type AssistantPort } from "./agents/assistant";

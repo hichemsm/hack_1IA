@@ -1,7 +1,8 @@
 import type { Address, Hex } from "viem";
 import {
-  AmountsAgent, ClaudeLlm, InMemoryHistory, OfflineLlm, Orchestrator, SecurityAgent, TransactionAgent,
-  type LlmPort,
+  AmountsAgent, ClaudeAssistant, ClaudeLlm, InMemoryHistory, OfflineAssistant, OfflineLlm, Orchestrator,
+  SecurityAgent, TransactionAgent,
+  type AssistantPort, type LlmPort,
 } from "@careguard/core";
 import { approvalSigner, registryAdapter, vaultAdapter } from "./adapters";
 import { publicClientFor } from "./chain";
@@ -42,7 +43,12 @@ export function createCareGuard(env: CareGuardEnv = process.env as CareGuardEnv)
   const transaction = new TransactionAgent(vaultAdapter(client, vault, txKey, rpcUrl));
   const orchestrator = new Orchestrator({ llm, amounts, security, transaction, history });
 
-  return { orchestrator, amounts, client, vault, llmMode: env.ANTHROPIC_API_KEY ? "claude" : "hors ligne" };
+  // Assistant de discussion : lecture seule, aucun accès aux agents sécurité et transaction
+  const assistant: AssistantPort = env.ANTHROPIC_API_KEY
+    ? new ClaudeAssistant(env.ANTHROPIC_API_KEY, env.LLM_MODEL)
+    : new OfflineAssistant();
+
+  return { orchestrator, amounts, assistant, client, vault, llmMode: env.ANTHROPIC_API_KEY ? "claude" : "hors ligne" };
 }
 
 function required(v: string | undefined, name: string): string {

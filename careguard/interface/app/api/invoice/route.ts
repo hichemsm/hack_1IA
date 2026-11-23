@@ -1,11 +1,12 @@
 import { careguard, toJson } from "@/lib/careguard";
+import { store, recordResult } from "@/lib/store";
 import type { BeneficiaryProfile, DemoMode, InvoiceInput } from "@careguard/core";
 
 export const runtime = "nodejs";
 
 interface Body {
   input: InvoiceInput;
-  profile: BeneficiaryProfile;
+  profile?: BeneficiaryProfile;
   guardianConfirmed?: boolean;
   demo?: DemoMode;
 }
@@ -15,11 +16,12 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as Body;
     const result = await careguard().orchestrator.process(body.input, {
-      profile: body.profile,
+      profile: body.profile ?? store.profile,
       guardianConfirmed: body.guardianConfirmed,
       demo: body.demo,
     });
-    return new Response(toJson(result), { headers: { "content-type": "application/json" } });
+    const txItem = recordResult(result);
+    return new Response(toJson({ ...result, txItem }), { headers: { "content-type": "application/json" } });
   } catch (e) {
     return Response.json({ error: e instanceof Error ? e.message : String(e) }, { status: 400 });
   }

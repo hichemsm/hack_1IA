@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "pnpm --filter @careguard/interface dev",
     "build": "pnpm --filter @careguard/interface build",
+    "typecheck": "pnpm -r typecheck",
     "test": "pnpm --filter @careguard/core test && cd bridge/contracts && forge test",
     "test:core": "pnpm --filter @careguard/core test",
     "test:contracts": "cd bridge/contracts && forge test -vv",
