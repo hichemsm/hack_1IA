@@ -1,6 +1,6 @@
 import type { Hex } from "viem";
 import { centsToToken, invoiceHash, providerIdHash } from "../src/ids";
-import type { ApprovalSigner, RegistryPort } from "../src/ports";
+import type { ApprovalSigner, RegistryPort, SimulationResult, VaultPort } from "../src/ports";
 import { Category, type Invoice, type PaymentOrder, type ProviderInfo } from "../src/types";
 
 export { InMemoryHistory } from "../src/ports";
@@ -89,5 +89,42 @@ export class FakeSigner implements ApprovalSigner {
   async signApproval(order: PaymentOrder): Promise<Hex> {
     this.calls.push(order);
     return FakeSigner.SIGNATURE;
+  }
+}
+
+/**
+ * Faux coffre : le résultat de la simulation est configurable (succès ou nom d'erreur du contrat),
+ * et chaque appel à simulatePay / sendPay est enregistré.
+ */
+export class FakeVault implements VaultPort {
+  static readonly TX_HASH: Hex = `0x${"ab".repeat(32)}`;
+  simulation: SimulationResult = { ok: true, executed: true, pendingId: 2n ** 256n - 1n };
+  readonly simulateCalls: PaymentOrder[] = [];
+  readonly sendCalls: PaymentOrder[] = [];
+
+  get sendPayCount(): number {
+    return this.sendCalls.length;
+  }
+
+  /** Simulation réussie : paiement exécuté tout de suite, ou mis en attente de l'aidante */
+  simulateOk(executed: boolean, pendingId: bigint = 2n ** 256n - 1n): this {
+    this.simulation = { ok: true, executed, pendingId };
+    return this;
+  }
+
+  /** Simulation refusée par le contrat avec cette erreur (ex. « UnknownProvider ») */
+  simulateRevert(errorName: string): this {
+    this.simulation = { ok: false, errorName };
+    return this;
+  }
+
+  async simulatePay(order: PaymentOrder): Promise<SimulationResult> {
+    this.simulateCalls.push(order);
+    return this.simulation;
+  }
+
+  async sendPay(order: PaymentOrder): Promise<Hex> {
+    this.sendCalls.push(order);
+    return FakeVault.TX_HASH;
   }
 }
