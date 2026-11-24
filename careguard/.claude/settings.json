@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/saoproc/.claude/projects/-home-saoproc-hack-1IA/**)",
+      "Read(//home/saoproc/.claude/projects/**)",
+      "Read(//home/saoproc/.claude/**)",
+      "Bash(python3 -I -)",
+      "Bash(npx tsc *)",
+      "Bash(pnpm --filter @careguard/core typecheck)"
+    ]
+  }
+}

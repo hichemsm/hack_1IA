@@ -1,9 +1,10 @@
 import { readFileSync } from "node:fs";
+import type { Hex } from "viem";
 import { fileURLToPath } from "node:url";
 import { beforeEach, describe, expect, it } from "vitest";
 import { CONTRACT_ERRORS, TransactionAgent } from "../src/agents/transaction";
 import { Category, type PaymentOrder } from "../src/types";
-import { FakeSigner, FakeVault } from "./fakes";
+import { FakeVault } from "./fakes";
 
 const order: PaymentOrder = {
   invoiceHash: `0x${"11".repeat(32)}`,
@@ -14,7 +15,7 @@ const order: PaymentOrder = {
   baremeHash: `0x${"33".repeat(32)}`,
   deadline: 1_800_000_900n,
 };
-const sig = FakeSigner.SIGNATURE;
+const sig: Hex = `0x${"5a".repeat(65)}`;
 
 let vault: FakeVault;
 let agent: TransactionAgent;

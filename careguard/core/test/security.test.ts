@@ -143,14 +143,14 @@ describe("agent sécurité — approve()", () => {
 
   it("escalate confirmé par l'aidante → signature", async () => {
     const { report, order } = await analyse(facture({ montantCents: 5000 }));
-    expect(await agent.approve(order, report, true)).toBe(FakeSigner.SIGNATURE);
+    expect(await agent.approve(order, report, true)).toBe(FakeSigner.sign(order, signer.address));
     expect(signer.calls).toEqual([order]);
   });
 
   it("pay → signature", async () => {
     const { report, order } = await analyse(facture());
     expect(report.decision).toBe("pay");
-    expect(await agent.approve(order, report)).toBe(FakeSigner.SIGNATURE);
+    expect(await agent.approve(order, report)).toBe(FakeSigner.sign(order, signer.address));
     expect(signer.calls).toEqual([order]);
   });
 
