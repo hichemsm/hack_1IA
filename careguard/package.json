@@ -12,6 +12,8 @@
     "test:core": "pnpm --filter @careguard/core test",
     "test:contracts": "cd bridge/contracts && forge test -vv",
     "abi": "node bridge/scripts/gen-abi.mjs",
-    "simulate": "pnpm --filter @careguard/bridge simulate"
+    "simulate": "pnpm --filter @careguard/bridge simulate",
+    "local": "bash bridge/scripts/local.sh",
+    "test:e2e": "pnpm --filter @careguard/bridge e2e"
   }
 }

@@ -13,7 +13,8 @@ export async function GET() {
   let coffre: bigint | null = null;
   try {
     coffre = await cg.client.readContract({
-      address: (process.env.TUSD8_ADDRESS as Address | undefined) ?? TUSD8_ADDRESS,
+      // || et non ?? : une variable vide (TUSD8_ADDRESS=) doit aussi retomber sur l'adresse du testnet
+      address: (process.env.TUSD8_ADDRESS as Address | undefined) || TUSD8_ADDRESS,
       abi: erc20Abi,
       functionName: "balanceOf",
       args: [cg.vault],

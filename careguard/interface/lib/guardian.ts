@@ -20,7 +20,8 @@ async function guardianWallet() {
   }
   const [account] = await wallet.requestAddresses();
   // gasPrice explicite → transaction legacy, acceptée par Aevum
-  const gasPrice = await publicClientFor().getGasPrice();
+  // NEXT_PUBLIC_AEVUM_RPC_URL : écrit par pnpm local pour viser anvil ; sinon, le RPC du testnet
+  const gasPrice = await publicClientFor(process.env.NEXT_PUBLIC_AEVUM_RPC_URL || undefined).getGasPrice();
   return { wallet, account, gasPrice };
 }
 
